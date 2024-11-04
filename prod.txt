@@ -1,1 +1,14 @@
 CodeForGood
+git clone https://github.com/rahulks01/skill-issue.git
+
+cd skill-issue
+
+git add filename.txt
+
+git add .
+
+git commit -m "commit message"
+
+git push origin main
+
+git pull origin main
