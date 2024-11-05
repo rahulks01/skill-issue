@@ -6,10 +6,25 @@ pipeline {
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                // Clean workspace before starting the pipeline
+                deleteDir()  // This deletes the workspace contents to ensure a fresh build.
+            }
+        }
+
         stage('Checkout') {
             steps {
-                // Clone the repository
-                git 'https://github.com/rahulks01/skill-issue.git'  // This clones the Git repository.
+                // Clone the repository and specify the branch explicitly
+                git branch: 'main', url: 'https://github.com/rahulks01/skill-issue.git'
+            }
+        }
+
+        stage('Verify Branch') {
+            steps {
+                // Check the current Git branch and status
+                sh 'git branch'    // Lists the branch to confirm it's on the correct branch.
+                sh 'git status'    // Shows the status to confirm successful checkout.
             }
         }
 
@@ -44,3 +59,4 @@ pipeline {
         }
     }
 }
+
