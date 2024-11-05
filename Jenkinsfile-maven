@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    
+    tools {
+        maven 'MAVEN3'
+        jdk 'JAVA17'
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/rahulks01/skill-issue.git'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                deploy adapters: [tomcat9(credentialsId: 'tomcat_credentials', 
+                                       path: '', 
+                                       url: 'http://3.110.54.184:8080/manager/text')] {
+                    warDeployer deployable: 'target/my-maven-webapp.war', 
+                                contextPath: '/myapp', 
+                                url: 'http://3.110.54.184:8080/manager/text', 
+                                username: 'admin', 
+                                password: 'admin321'
+                }
+            }
+        }
+    }
+}
