@@ -28,14 +28,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 deploy adapters: [tomcat9(credentialsId: 'tomcat_credentials', 
-                                       path: '', 
-                                       url: 'http://3.110.54.184:8080/manager/text')] {
-                    warDeployer deployable: 'target/my-maven-webapp.war', 
-                                contextPath: '/myapp', 
-                                url: 'http://3.110.54.184:8080/manager/text', 
-                                username: 'admin', 
-                                password: 'admin321'
-                }
+                                          url: 'http://3.110.54.184:8080/manager/text')], 
+                       war: 'target/my-maven-webapp.war', 
+                       contextPath: '/myapp'
             }
         }
     }
